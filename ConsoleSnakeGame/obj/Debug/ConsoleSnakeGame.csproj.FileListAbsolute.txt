@@ -1,0 +1,6 @@
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\bin\Debug\ConsoleSnakeGame.exe.config
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\bin\Debug\ConsoleSnakeGame.exe
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\bin\Debug\ConsoleSnakeGame.pdb
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\obj\Debug\ConsoleSnakeGame.csprojResolveAssemblyReference.cache
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\obj\Debug\ConsoleSnakeGame.exe
+C:\Users\qwert\Desktop\C 테스트\ConsoleSnakeGame\ConsoleSnakeGame\obj\Debug\ConsoleSnakeGame.pdb
